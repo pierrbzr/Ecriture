@@ -37,8 +37,8 @@ public class DrawingPanel extends JPanel {
         g.setColor(getBackground());
         g.fillRect(0, 0, getWidth(), getHeight());
     }
-
-    public Color getPenColor() {
+    
+  public Color getPenColor() {
         return penColor;
     }
 

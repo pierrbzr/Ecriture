@@ -46,7 +46,7 @@ public class GridStrategy {
         HashMap<Character, boolean[][]> test1 = Database.getLetterDatabase();
         HashMap<Character, boolean[][]> test2 = Database.getLetterDatabase();
         boolean[][] tableauNaze = test1.get('a');
-        boolean[][] tableauStyle = test2.get('A');
+        boolean[][] tableauStyle = test2.get('a');
 
         int caseVraie = 0;
         int caseFausse = 0;

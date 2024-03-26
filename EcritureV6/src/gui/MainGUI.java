@@ -11,7 +11,6 @@ import engine.grid.Grid;
 public class MainGUI extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private DrawingPanel drawingPanel;
     private DrawingPanel drawingPanel0;
     private DrawingPanel drawingPanel1;
     private DrawingPanel drawingPanel2;
@@ -23,6 +22,9 @@ public class MainGUI extends JFrame {
     private DrawingPanel drawingPanel8;
     private DrawingPanel drawingPanel9;
 
+    private DrawingPanel[] drawingPanels = { drawingPanel0, drawingPanel1, drawingPanel2, drawingPanel3,
+        drawingPanel4, drawingPanel5, drawingPanel6, drawingPanel7, drawingPanel8, drawingPanel9 };
+
     private final static Dimension preferredSize = new Dimension(SoftwareConfiguration.WINDOW_WIDTH,
             SoftwareConfiguration.WINDOW_HEIGHT);
     private final static Dimension preferredSize2 = new Dimension(SoftwareConfiguration.WINDOW_WIDTH, 700);
@@ -33,17 +35,19 @@ public class MainGUI extends JFrame {
         init();
     }
 
+    private void resetGrid() {
+        for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
+            drawingPanels[j].deleteGrid();
+        }
+    }
+
     private void init() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // JButton startButton = new JButton("Afficher Grilles");
-        // startButton.addActionListener(e -> drawingPanel.startDrawing());
-
         JButton clearButton = new JButton("Tout Effacer");
-        clearButton.addActionListener(e -> drawingPanel.addGrid());
+        clearButton.addActionListener(e -> resetGrid());
 
         JComboBox<String> colorComboBox = new JComboBox<>(new String[] { "Rouge", "Noir", "Bleu" });
-        colorComboBox.addActionListener(e -> drawingPanel.setPenColor(colorComboBox.getSelectedItem().toString()));
 
         JButton validGridButton = new JButton("Validé !");
         // validGridButton.addActionListener(e -> GridStrategy.verificationLettre());
@@ -72,8 +76,7 @@ public class MainGUI extends JFrame {
 
             Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
 
-            DrawingPanel[] drawingPanels = { drawingPanel0, drawingPanel1, drawingPanel2, drawingPanel3,
-                    drawingPanel4, drawingPanel5, drawingPanel6, drawingPanel7, drawingPanel8, drawingPanel9 };
+            
 
             subPanels[i] = new JPanel(new BorderLayout());
 
@@ -102,6 +105,8 @@ public class MainGUI extends JFrame {
             centerPanel.add(subPanels[i]);
 
             drawingPanels[i].setPreferredSize(preferredSize);
+
+            colorComboBox.addActionListener(e -> drawingPanels[i].setPenColor(colorComboBox.getSelectedItem().toString()));
 
             drawingPanels[i].addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
@@ -166,7 +171,6 @@ public class MainGUI extends JFrame {
         resultPanel.add(res);
 
         JPanel controlPanel = new JPanel();
-        // controlPanel.add(startButton);
         controlPanel.add(clearButton);
         controlPanel.add(new JLabel("Couleur:"));
         controlPanel.add(colorComboBox);
@@ -182,26 +186,10 @@ public class MainGUI extends JFrame {
         centerPanel.setPreferredSize(preferredSize2);
         resultPanel.setPreferredSize(preferredSize3);
 
-        /*
-         * 
-         * 
-         * Fonctions qui marchent
-         * 
-         * 
-         * 
-         */
-
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
 
     }
-
-    /*
-     * private void start() {
-     * 
-     * }
-     */
-
 }

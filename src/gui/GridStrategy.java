@@ -31,19 +31,12 @@ public class GridStrategy {
 
                 g.fillRect(x, y, cellSize, cellSize);
 
-                g.setColor(Color.BLACK);
-
-                g.drawLine(x, y, x + cellSize, y);
-                g.drawLine(x, y + cellSize, x + cellSize, y + cellSize);
-
-                g.drawLine(x, y, x, y + cellSize);
-                g.drawLine(x + cellSize, y, x + cellSize, y + cellSize);
             }
         }
 
     }
 
-    public static void paintLines(Graphics g) {
+    public void paintLines(Graphics g) {
         for (int i = 0; i < grid.getLineCount(); i++) {
             for (int j = 0; j < grid.getColumnCount(); j++) {
                 int x = j * cellSize + xOffset;

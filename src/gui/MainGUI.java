@@ -130,7 +130,7 @@ public class MainGUI extends JFrame {
                                 // Suppresion de la grille
                                 drawingPanels[i].suppGrid(drawingPanels[i]);
                                 // Booléen affirmant que la grille n'existe plus
-                                drawingPanels[i].setAffiche(false);
+                                // drawingPanels[i].setAffiche(false);
 
                         });
 

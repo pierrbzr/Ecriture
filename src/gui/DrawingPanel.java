@@ -36,11 +36,13 @@ public class DrawingPanel extends JPanel {
     private void drawGrid() {
         Graphics g = getGraphics();
         gridStrategy.paint(g);
+        gridStrategy.paintLines(g);
+
     }
 
     public void drawLines() {
         Graphics g = getGraphics();
-        GridStrategy.paintLines(g);
+        gridStrategy.paintLines(g);
     }
 
     public void suppGrid(DrawingPanel drawingPanel) {

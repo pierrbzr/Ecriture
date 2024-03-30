@@ -8,6 +8,7 @@ import java.awt.*;
 public class DrawingPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
+    public static boolean affiche = false;
     private int lastX, lastY;
     private Color penColor = Color.RED;
     private GridStrategy gridStrategy;
@@ -19,8 +20,17 @@ public class DrawingPanel extends JPanel {
 
     }
 
-    public void addGrid() {
+    public boolean getAffiche() {
+        return affiche;
+    }
+
+    public boolean setAffiche(boolean estAffiche) {
+        return affiche = estAffiche;
+    }
+
+    public void addGrid(DrawingPanel drawingPanel) {
         drawGrid();
+        // setAffiche(drawingPanel, true);
     }
 
     private void drawGrid() {
@@ -28,8 +38,14 @@ public class DrawingPanel extends JPanel {
         gridStrategy.paint(g);
     }
 
-    public void suppGrid() {
+    public void drawLines() {
+        Graphics g = getGraphics();
+        GridStrategy.paintLines(g);
+    }
+
+    public void suppGrid(DrawingPanel drawingPanel) {
         deleteGrid();
+
     }
 
     public void deleteGrid() {

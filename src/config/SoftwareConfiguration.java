@@ -11,4 +11,6 @@ public class SoftwareConfiguration {
 	public static final int LINE_COUNT = 10;
 	public static final int COLUMN_COUNT = 10;
 
+	public static final int GRID_COUNT = 10;
+
 }

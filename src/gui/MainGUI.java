@@ -10,164 +10,318 @@ import engine.grid.Grid;
 
 public class MainGUI extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-    private DrawingPanel drawingPanel;
+        private static final long serialVersionUID = 1L;
 
-    private final static Dimension preferredSize = new Dimension(SoftwareConfiguration.WINDOW_WIDTH,
-            SoftwareConfiguration.WINDOW_HEIGHT);
-    private final static Dimension preferredSize2 = new Dimension(SoftwareConfiguration.WINDOW_WIDTH, 700);
-    private final static Dimension preferredSize3 = new Dimension(1600, 50);
+        private final static Dimension preferredSize = new Dimension(SoftwareConfiguration.WINDOW_WIDTH,
+                        SoftwareConfiguration.WINDOW_HEIGHT);
+        private final static Dimension preferredSize2 = new Dimension(SoftwareConfiguration.WINDOW_WIDTH, 700);
+        private final static Dimension preferredSize3 = new Dimension(1600, 50);
 
-    public MainGUI(String title) {
-        super(title);
-        init();
-    }
+        // Création et Initialisation des Zones de Dessins
 
-    private void init() {
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        private DrawingPanel drawingPanel0;
+        private DrawingPanel drawingPanel1;
+        private DrawingPanel drawingPanel2;
+        private DrawingPanel drawingPanel3;
+        private DrawingPanel drawingPanel4;
+        private DrawingPanel drawingPanel5;
+        private DrawingPanel drawingPanel6;
+        private DrawingPanel drawingPanel7;
+        private DrawingPanel drawingPanel8;
+        private DrawingPanel drawingPanel9;
 
-        // JButton startButton = new JButton("Afficher Grilles");
-        // startButton.addActionListener(e -> drawingPanel.startDrawing());
+        private DrawingPanel[] drawingPanels = { drawingPanel0, drawingPanel1, drawingPanel2, drawingPanel3,
+                        drawingPanel4, drawingPanel5, drawingPanel6, drawingPanel7, drawingPanel8, drawingPanel9 };
 
-        JButton clearButton = new JButton("Tout Effacer");
-        clearButton.addActionListener(e -> drawingPanel.addGrid());
+        // Création et Initialisation des Grilles de Dessins
 
-        JComboBox<String> colorComboBox = new JComboBox<>(new String[] { "Rouge", "Noir", "Bleu" });
-        colorComboBox.addActionListener(e -> drawingPanel.setPenColor(colorComboBox.getSelectedItem().toString()));
+        private Grid grid0 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid1 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid2 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid3 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid4 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid5 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid6 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid7 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid8 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        private Grid grid9 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
 
-        JButton validGridButton = new JButton("Validé !");
-        // validGridButton.addActionListener(e -> GridStrategy.verificationLettre());
-        validGridButton.addActionListener(e -> GridStrategy.testDatabase());
+        private Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
 
-        JPanel controlPanel = new JPanel();
-        // controlPanel.add(startButton);
-        controlPanel.add(clearButton);
-        controlPanel.add(new JLabel("Couleur:"));
-        controlPanel.add(colorComboBox);
-        controlPanel.add(validGridButton);
+        // Création et Initialisation des Boutons
 
-        controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        private JButton[] addGridButtons = new JButton[SoftwareConfiguration.GRID_COUNT];
 
-        JPanel centerPanel = new JPanel(new GridLayout(2, 5, 10, 10));
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        private JButton[] suppGridButtons = new JButton[SoftwareConfiguration.GRID_COUNT];
 
-        // centerPanel.setBackground(Color.RED);
+        private JPanel[] subPanels = new JPanel[SoftwareConfiguration.GRID_COUNT];
 
-        for (int i = 0; i < 10; i++) {
+        private JPanel[] buttonsPanels = new JPanel[SoftwareConfiguration.GRID_COUNT];
 
-            JPanel subPanel = new JPanel(new BorderLayout());
+        // Fonction de réinitialisation de l'ensemble des grilles
 
-            Grid grid = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-            drawingPanel = new DrawingPanel(grid);
-            drawingPanel.setBackground(Color.GRAY);
-            subPanel.add(drawingPanel, BorderLayout.CENTER);
-
-            JButton addGridButton2 = new JButton("Ajouter une grille");
-            addGridButton2.addActionListener(e -> drawingPanel.addGrid());
-
-            JButton suppGridButton2 = new JButton("Supprimer Dessin");
-            suppGridButton2.addActionListener(e -> drawingPanel.deleteGrid());
-            JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 5, 5));
-
-            buttonsPanel.add(addGridButton2);
-            buttonsPanel.add(suppGridButton2);
-
-            subPanel.add(buttonsPanel, BorderLayout.SOUTH);
-            subPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            subPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-            buttonsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            centerPanel.add(subPanel);
-
+        private void resetGrid() {
+                for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
+                        drawingPanels[j].suppGrid(drawingPanels[j]);
+                        drawingPanels[j].setAffiche(false);
+                }
         }
 
-        JPanel resultPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        resultPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        JLabel name = new JLabel("Résulat : ");
-        resultPanel.add(name);
+        // Déclaration Fonction Principale
+        public MainGUI(String title) {
+                super(title);
+                init();
+        }
 
-        add(centerPanel, BorderLayout.NORTH);
-        add(resultPanel, BorderLayout.CENTER);
-        add(controlPanel, BorderLayout.SOUTH);
+        // Initialisation Fonction Principale
+        private void init() {
 
-        drawingPanel.setPreferredSize(preferredSize);
-        centerPanel.setPreferredSize(preferredSize2);
-        resultPanel.setPreferredSize(preferredSize3);
+                setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        /*
-         * 
-         * 
-         * Fonctions qui marchent
-         * 
-         * 
-         * 
-         */
+                // Création de la zone de contrôle
+                JPanel controlPanel = new JPanel();
 
-        drawingPanel.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                drawingPanel.setLastMousePosition(e.getX(), e.getY());
-            }
+                // Création des boutons de la zone de contrôle
+                JButton clearButton = new JButton("Tout Effacer");
+                clearButton.addActionListener(e -> resetGrid());
 
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+                JComboBox<String> colorComboBox = new JComboBox<>(new String[] { "Rouge", "Noir", "Bleu" });
 
-                if (SwingUtilities.isLeftMouseButton(e)) {
-                    int cellX = (x - SoftwareConfiguration.OFFSET_X) /
-                            SoftwareConfiguration.BLOCK_SIZE;
-                    int cellY = (y - SoftwareConfiguration.OFFSET_Y) /
-                            SoftwareConfiguration.BLOCK_SIZE;
+                JButton validGridButton = new JButton("Validé !");
 
-                    if (cellX >= 0 && cellX < SoftwareConfiguration.COLUMN_COUNT &&
-                            cellY >= 0 && cellY < SoftwareConfiguration.LINE_COUNT) {
+                // validGridButton.addActionListener(e -> GridStrategy.verificationLettre());
+                validGridButton.addActionListener(e -> GridStrategy.testDatabase());
 
-                        Graphics g = (Graphics) drawingPanel.getGraphics();
-                        g.setColor(Color.RED);
-                        g.fillRect(
-                                cellX * SoftwareConfiguration.BLOCK_SIZE + SoftwareConfiguration.OFFSET_X,
-                                cellY * SoftwareConfiguration.BLOCK_SIZE + SoftwareConfiguration.OFFSET_Y,
-                                SoftwareConfiguration.BLOCK_SIZE,
-                                SoftwareConfiguration.BLOCK_SIZE);
-                    }
+                // Ajouts des boutons à la zone de contrôle
+                controlPanel.add(clearButton);
+                controlPanel.add(new JLabel("Couleur:"));
+                controlPanel.add(colorComboBox);
+                controlPanel.add(validGridButton);
+
+                controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+                // centerPanel correspond à la zone principale , l'endroit où sont afficher
+                // toute les zones de dessins
+                JPanel centerPanel = new JPanel(new GridLayout(2, 5, 10, 10));
+                centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+                // Boucle d'initialisation de chaque zone
+                for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
+                        final int i = j; // i est effectivement final
+
+                        // Bouton d'affichage de la grille
+
+                        // Nom du Bouton
+                        addGridButtons[i] = new JButton("Ajouter une grille n° " + i);
+
+                        addGridButtons[i].addActionListener(e -> {
+                                // Affichage de la grille
+                                drawingPanels[i].addGrid(drawingPanels[i]);
+                                // Booléen affirmant que la grille est présente
+                                drawingPanels[i].setAffiche(true);
+                        });
+
+                        // Bouton de suppression de la grille
+
+                        // Nom du Bouton
+                        suppGridButtons[i] = new JButton("Supprimer une grille n° " + i);
+
+                        suppGridButtons[i].addActionListener(e -> {
+                                // Suppresion de la grille
+                                drawingPanels[i].suppGrid(drawingPanels[i]);
+                                // Booléen affirmant que la grille n'existe plus
+                                drawingPanels[i].setAffiche(false);
+
+                        });
+
+                        // Panel correspondant aux espaces attribués pour les zones de dessin
+                        subPanels[i] = new JPanel(new BorderLayout());
+
+                        // Déclaration des zones de dessins
+                        drawingPanels[i] = new DrawingPanel(grilles[i]);
+                        drawingPanels[i].setBackground(Color.GRAY);
+
+                        // Ajouts de la zone de dessin dans l'espace attribué
+                        subPanels[i].add(drawingPanels[i], BorderLayout.CENTER);
+
+                        // Création des boutons d'affichage et de suppresion des grilles
+                        buttonsPanels[i] = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+                        buttonsPanels[i].add(addGridButtons[i]);
+                        buttonsPanels[i].add(suppGridButtons[i]);
+
+                        // Placement des boutons sous la zone de dessin
+                        subPanels[i].add(buttonsPanels[i], BorderLayout.SOUTH);
+
+                        // Création de Bordures pour encadrer les parties de l'IHM
+                        subPanels[i].setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                        subPanels[i].setBorder(BorderFactory.createLineBorder(Color.black));
+                        buttonsPanels[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                        // Ajouts des zones de dessins avec boutons
+                        centerPanel.add(subPanels[i]);
+
+                        drawingPanels[i].setPreferredSize(preferredSize);
+
+                        // Ajustement de la taille des boutons
+                        if (i == 9) {
+                                addGridButtons[i].setMargin(new Insets(2, 2, 2, 2));
+                                suppGridButtons[i].setMargin(new Insets(2, 2, 2, 2));
+                        } else {
+
+                                addGridButtons[i].setMargin(new Insets(2, 4, 2, 4));
+                                suppGridButtons[i].setMargin(new Insets(2, 4, 2, 4));
+                        }
+
+                        // Outil de selection des couleurs
+                        colorComboBox
+                                        .addActionListener(e -> drawingPanels[i]
+                                                        .setPenColor(colorComboBox.getSelectedItem().toString()));
+
+                        // Fonction permettant à l'utilisateur de dessiner avec un clique de la souris
+                        drawingPanels[i].addMouseListener(new MouseAdapter() {
+                                public void mousePressed(MouseEvent e) {
+                                        // Verification que la grille est affichée pour dessiner
+                                        if (drawingPanels[i].getAffiche()) {
+
+                                                drawingPanels[i].setLastMousePosition(e.getX(), e.getY());
+                                        }
+                                }
+
+                                public void mouseClicked(MouseEvent e) {
+                                        // Verification que la grille est affichée pour dessiner
+                                        if (drawingPanels[i].getAffiche()) {
+
+                                                // Récupéreration de la position de la souris
+                                                int x = e.getX();
+                                                int y = e.getY();
+
+                                                // Dessin lors d'un clique gauche
+                                                if (SwingUtilities.isLeftMouseButton(e)) {
+                                                        int cellX = (x - SoftwareConfiguration.OFFSET_X) /
+                                                                        SoftwareConfiguration.BLOCK_SIZE;
+                                                        int cellY = (y - SoftwareConfiguration.OFFSET_Y) /
+                                                                        SoftwareConfiguration.BLOCK_SIZE;
+
+                                                        if (cellX >= 0 && cellX < SoftwareConfiguration.COLUMN_COUNT &&
+                                                                        cellY >= 0
+                                                                        && cellY < SoftwareConfiguration.LINE_COUNT) {
+                                                                Graphics g = (Graphics) drawingPanels[i]
+                                                                                .getGraphics();
+                                                                g.setColor(Color.RED);
+                                                                g.fillRect(
+                                                                                cellX * SoftwareConfiguration.BLOCK_SIZE
+                                                                                                + SoftwareConfiguration.OFFSET_X,
+                                                                                cellY * SoftwareConfiguration.BLOCK_SIZE
+                                                                                                + SoftwareConfiguration.OFFSET_Y,
+                                                                                SoftwareConfiguration.BLOCK_SIZE,
+                                                                                SoftwareConfiguration.BLOCK_SIZE);
+
+                                                        }
+                                                }
+
+                                                // Correction du dessin lors d'un clique droit
+                                                if (SwingUtilities.isRightMouseButton(e)) {
+                                                        int cellX = (x - SoftwareConfiguration.OFFSET_X) /
+                                                                        SoftwareConfiguration.BLOCK_SIZE;
+                                                        int cellY = (y - SoftwareConfiguration.OFFSET_Y) /
+                                                                        SoftwareConfiguration.BLOCK_SIZE;
+
+                                                        if (cellX >= 0 && cellX < SoftwareConfiguration.COLUMN_COUNT &&
+                                                                        cellY >= 0
+                                                                        && cellY < SoftwareConfiguration.LINE_COUNT) {
+                                                                Graphics g = (Graphics) drawingPanels[i]
+                                                                                .getGraphics();
+                                                                g.setColor(Color.WHITE);
+                                                                g.fillRect(
+                                                                                cellX * SoftwareConfiguration.BLOCK_SIZE
+                                                                                                + SoftwareConfiguration.OFFSET_X,
+                                                                                cellY * SoftwareConfiguration.BLOCK_SIZE
+                                                                                                + SoftwareConfiguration.OFFSET_Y,
+                                                                                SoftwareConfiguration.BLOCK_SIZE,
+                                                                                SoftwareConfiguration.BLOCK_SIZE);
+
+                                                        }
+
+                                                }
+
+                                                // Affichage constant du quadrillage
+                                                drawingPanels[i].drawLines();
+
+                                        }
+
+                                }
+                        });
+
+                        // Fonction permettant à l'utilisateur de dessiner en restant appuyer sur la
+                        // souris
+
+                        drawingPanels[i].addMouseMotionListener(new MouseAdapter() {
+                                public void mouseDragged(MouseEvent e) {
+                                        // Verification que la grille est affichée pour dessiner
+
+                                        if (drawingPanels[i].getAffiche()) {
+
+                                                int x = e.getX();
+                                                int y = e.getY();
+
+                                                int cellX = (x - SoftwareConfiguration.OFFSET_X) /
+                                                                SoftwareConfiguration.BLOCK_SIZE;
+                                                int cellY = (y - SoftwareConfiguration.OFFSET_Y) /
+                                                                SoftwareConfiguration.BLOCK_SIZE;
+
+                                                if (cellX >= 0 && cellX < SoftwareConfiguration.COLUMN_COUNT &&
+                                                                cellY >= 0
+                                                                && cellY < SoftwareConfiguration.LINE_COUNT) {
+                                                        Graphics g = (Graphics) drawingPanels[i].getGraphics();
+                                                        g.setColor(drawingPanels[i].getPenColor());
+                                                        g.fillRect(
+                                                                        cellX * SoftwareConfiguration.BLOCK_SIZE
+                                                                                        + SoftwareConfiguration.OFFSET_X,
+                                                                        cellY * SoftwareConfiguration.BLOCK_SIZE
+                                                                                        + SoftwareConfiguration.OFFSET_Y,
+                                                                        SoftwareConfiguration.BLOCK_SIZE,
+                                                                        SoftwareConfiguration.BLOCK_SIZE);
+
+                                                }
+
+                                                // Affichage constant du quadrillage
+                                                drawingPanels[i].drawLines();
+
+                                        }
+
+                                }
+                        });
+
                 }
-            }
-        });
 
-        drawingPanel.addMouseMotionListener(new MouseAdapter() {
-            public void mouseDragged(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
+                // Déclaration de la zone de Résultat
+                JPanel resultPanel = new JPanel(
+                                new FlowLayout(FlowLayout.CENTER, 5,
+                                                5));
+                resultPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-                int cellX = (x - SoftwareConfiguration.OFFSET_X) /
-                        SoftwareConfiguration.BLOCK_SIZE;
-                int cellY = (y - SoftwareConfiguration.OFFSET_Y) /
-                        SoftwareConfiguration.BLOCK_SIZE;
+                // Déclaratiion des zones de textes accueillant le résultat
+                JLabel res = new JLabel("Résulat : ");
+                JLabel RESULTAT = new JLabel("_ _ _ _ _ _ _ _ _ _");
 
-                if (cellX >= 0 && cellX < SoftwareConfiguration.COLUMN_COUNT &&
-                        cellY >= 0 && cellY < SoftwareConfiguration.LINE_COUNT) {
+                // Ajouts des zones de texte dans la zone adéquate
+                resultPanel.add(res);
+                resultPanel.add(RESULTAT);
 
-                    Graphics g = (Graphics) drawingPanel.getGraphics();
-                    g.setColor(drawingPanel.getPenColor());
-                    g.fillRect(
-                            cellX * SoftwareConfiguration.BLOCK_SIZE + SoftwareConfiguration.OFFSET_X,
-                            cellY * SoftwareConfiguration.BLOCK_SIZE + SoftwareConfiguration.OFFSET_Y,
-                            SoftwareConfiguration.BLOCK_SIZE,
-                            SoftwareConfiguration.BLOCK_SIZE);
-                }
-            }
-        });
+                // Placement des différentes zone dans la fenêtre
+                add(centerPanel, BorderLayout.NORTH);
+                add(resultPanel, BorderLayout.CENTER);
+                add(controlPanel, BorderLayout.SOUTH);
 
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-        setResizable(false);
+                // Ajustement de la taille des zones
+                centerPanel.setPreferredSize(preferredSize2);
+                resultPanel.setPreferredSize(preferredSize3);
 
-    }
+                pack();
+                setLocationRelativeTo(null);
+                setVisible(true);
+                setResizable(false);
 
-    /*
-     * private void start() {
-     * 
-     * }
-     */
+        }
 
 }

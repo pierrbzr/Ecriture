@@ -10,15 +10,15 @@ import java.util.HashMap;
 public class GridStrategy {
 
     private static Grid grid;
-    private int cellSize;
-    private int xOffset;
-    private int yOffset;
+    private static int cellSize;
+    private static int xOffset;
+    private static int yOffset;
 
     public GridStrategy(Grid grid, int cellSize, int xDecalage, int yDecalage) {
         GridStrategy.grid = grid;
-        this.cellSize = SoftwareConfiguration.BLOCK_SIZE;
-        this.xOffset = SoftwareConfiguration.OFFSET_X;
-        this.yOffset = SoftwareConfiguration.OFFSET_Y;
+        GridStrategy.cellSize = SoftwareConfiguration.BLOCK_SIZE;
+        GridStrategy.xOffset = SoftwareConfiguration.OFFSET_X;
+        GridStrategy.yOffset = SoftwareConfiguration.OFFSET_Y;
     }
 
     public void paint(Graphics g) {
@@ -40,13 +40,32 @@ public class GridStrategy {
                 g.drawLine(x + cellSize, y, x + cellSize, y + cellSize);
             }
         }
+
+    }
+
+    public static void paintLines(Graphics g) {
+        for (int i = 0; i < grid.getLineCount(); i++) {
+            for (int j = 0; j < grid.getColumnCount(); j++) {
+                int x = j * cellSize + xOffset;
+                int y = i * cellSize + yOffset;
+
+                g.setColor(Color.BLACK);
+
+                g.drawLine(x, y, x + cellSize, y);
+                g.drawLine(x, y + cellSize, x + cellSize, y + cellSize);
+
+                g.drawLine(x, y, x, y + cellSize);
+                g.drawLine(x + cellSize, y, x + cellSize, y + cellSize);
+            }
+        }
+
     }
 
     public static void testDatabase() {
         HashMap<Character, boolean[][]> test1 = Database.getLetterDatabase();
         HashMap<Character, boolean[][]> test2 = Database.getLetterDatabase();
         boolean[][] tableauNaze = test1.get('a');
-        boolean[][] tableauStyle = test2.get('A');
+        boolean[][] tableauStyle = test2.get('a');
 
         int caseVraie = 0;
         int caseFausse = 0;

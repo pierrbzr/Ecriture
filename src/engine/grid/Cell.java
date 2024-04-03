@@ -3,12 +3,12 @@ package engine.grid;
 public class Cell {
 	private int line;
 	private int column;
-	private boolean colorie;
+	static boolean colorie;
 
-	public Cell(int line, int column, boolean colorie) {
+	public Cell(int line, int column, boolean couleur) {
 		this.line = line;
 		this.column = column;
-		this.colorie = colorie;
+		colorie = couleur;
 	}
 
 	public int getLine() {
@@ -18,7 +18,7 @@ public class Cell {
 	public int getColumn() {
 		return column;
 	}
-	
+
 	public boolean getColorie() {
 		return colorie;
 	}

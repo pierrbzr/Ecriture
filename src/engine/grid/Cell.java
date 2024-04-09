@@ -5,10 +5,10 @@ public class Cell {
 	private int column;
 	private boolean colorie;
 
-	public Cell(int line, int column, boolean colorie) {
+	public Cell(int line, int column, boolean couleur) {
 		this.line = line;
 		this.column = column;
-		this.colorie = colorie;
+		this.colorie = couleur;
 	}
 
 	public int getLine() {
@@ -18,9 +18,13 @@ public class Cell {
 	public int getColumn() {
 		return column;
 	}
-	
+
 	public boolean getColorie() {
 		return colorie;
+	}
+
+	public boolean setColorie(boolean couleur) {
+		return this.colorie = couleur;
 	}
 
 	public String toString() {

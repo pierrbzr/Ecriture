@@ -2,6 +2,7 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -47,21 +48,6 @@ public class MainGUI extends JFrame {
         private Grid grid9 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
 
         private Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
-
-        public boolean[][] letterDraw0 = {};
-        public boolean[][] letterDraw1 = {};
-        public boolean[][] letterDraw2 = {};
-        public boolean[][] letterDraw3 = {};
-        public boolean[][] letterDraw4 = {};
-        public boolean[][] letterDraw5 = {};
-        public boolean[][] letterDraw6 = {};
-        public boolean[][] letterDraw7 = {};
-        public boolean[][] letterDraw8 = {};
-        public boolean[][] letterDraw9 = {};
-
-        public boolean[][][] dessins = { letterDraw0, letterDraw1, letterDraw2,
-                        letterDraw3, letterDraw4, letterDraw5, letterDraw6, letterDraw7, letterDraw8,
-                        letterDraw9 };
 
         // Déclaration Variable intermediaire
 
@@ -109,7 +95,13 @@ public class MainGUI extends JFrame {
 
                 JButton validGridButton = new JButton("Validé !");
 
-                // validGridButton.addActionListener(e -> GridStrategy.testDatabase());
+                /*
+                 * boolean[][] tableauNaze = Database.getLetterDatabase().get('a');
+                 * boolean[][] tableauStyle = Database.getLetterDatabase().get('a');
+                 * 
+                 * validGridButton.addActionListener(e -> GridStrategy.testDatabase(tableauNaze,
+                 * tableauStyle));
+                 */
 
                 // Ajouts des boutons à la zone de contrôle
                 controlPanel.add(clearButton);
@@ -335,12 +327,12 @@ public class MainGUI extends JFrame {
                                                 drawingPanels[i].drawLines();
 
                                         }
-
                                 }
                         });
 
-                        validGridButton.addActionListener(e -> System.out.println("Grille n° : " + i));
-                        validGridButton.addActionListener(e -> grilles[i].RecupSchema());
+                        validGridButton.addActionListener(e -> System.out.println());
+                        validGridButton.addActionListener(e -> System.out.println("Grille n° " + i));
+                        validGridButton.addActionListener(e -> grilles[i].ReducSchema(grilles[i].RecupSchema()));
 
                 }
 

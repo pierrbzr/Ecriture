@@ -1,3 +1,4 @@
+
 package gui;
 
 import javax.swing.*;
@@ -49,13 +50,29 @@ public class MainGUI extends JFrame {
 
         private Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
 
+        private JLabel[] drawingLabel = { grid0.resultatLabel, grid1.resultatLabel, grid2.resultatLabel,
+                        grid3.resultatLabel,
+                        grid4.resultatLabel, grid5.resultatLabel, grid6.resultatLabel, grid7.resultatLabel,
+                        grid8.resultatLabel,
+                        grid9.resultatLabel };
+
+        JLabel[] reverseddrawinglabel = reverse(drawingLabel);
+
+        static JLabel[] reverse(JLabel[] array) {
+                JLabel[] newArray = new JLabel[array.length];
+
+                for (int i = 0; i < array.length; i++) {
+                        newArray[array.length - 1 - i] = array[i];
+                }
+
+                return newArray;
+        }
+
         // Déclaration Variable intermediaire
 
         boolean couleurCell;
 
         // Création et Initialisation des Boutons
-
-        private JButton[] addGridButtons = new JButton[SoftwareConfiguration.GRID_COUNT];
 
         private JButton[] suppGridButtons = new JButton[SoftwareConfiguration.GRID_COUNT];
 
@@ -67,9 +84,17 @@ public class MainGUI extends JFrame {
 
         private void resetGrid() {
                 for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
-                        drawingPanels[j].suppGrid(drawingPanels[j]);
-                        drawingPanels[j].setAffiche(false);
+                        drawingPanels[j].cleanGrid(drawingPanels[j]);
                         grilles[j].InitSchema();
+                }
+        }
+
+        private void addAllGrid() {
+                for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
+                        drawingPanels[j].addGrid(drawingPanels[j]);
+                        grilles[j].InitSchema();
+                        drawingPanels[j].setAffiche(true);
+
                 }
         }
 
@@ -85,62 +110,60 @@ public class MainGUI extends JFrame {
                 setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                 // Création de la zone de contrôle
-                JPanel controlPanel = new JPanel();
+                JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 7));
 
                 // Création des boutons de la zone de contrôle
+                JButton addButton = new JButton("Ajouter Grilles");
+                addButton.addActionListener(e -> addAllGrid());
+                addButton.setMargin(new Insets(3, 10, 3, 10));
+
                 JButton clearButton = new JButton("Tout Effacer");
                 clearButton.addActionListener(e -> resetGrid());
+                clearButton.setMargin(new Insets(3, 10, 3, 10));
 
                 JComboBox<String> colorComboBox = new JComboBox<>(new String[] { "Rouge", "Noir", "Bleu" });
 
                 JButton validGridButton = new JButton("Validé !");
-
-                /*
-                 * boolean[][] tableauNaze = Database.getLetterDatabase().get('a');
-                 * boolean[][] tableauStyle = Database.getLetterDatabase().get('a');
-                 * 
-                 * validGridButton.addActionListener(e -> GridStrategy.testDatabase(tableauNaze,
-                 * tableauStyle));
-                 */
+                validGridButton.setMargin(new Insets(3, 10, 3, 10));
 
                 // Ajouts des boutons à la zone de contrôle
+                controlPanel.add(addButton);
                 controlPanel.add(clearButton);
                 controlPanel.add(new JLabel("Couleur:"));
                 controlPanel.add(colorComboBox);
                 controlPanel.add(validGridButton);
 
                 controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+                controlPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
                 // centerPanel correspond à la zone principale , l'endroit où sont afficher
                 // toute les zones de dessins
                 JPanel centerPanel = new JPanel(new GridLayout(2, 5, 10, 10));
                 centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+                // Déclaration de la zone de Résultat
+                JPanel resultPanel = new JPanel(
+                                new FlowLayout(FlowLayout.CENTER, 5,
+                                                5));
+                resultPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+                // Déclaratiion des zones de textes accueillant le résultat
+                JLabel res = new JLabel("Résulat : ");
+                JLabel RESULTAT = new JLabel("_ _ _ _ _ _ _ _ _ _");
+
+                // Ajouts des zones de texte dans la zone adéquate
+                resultPanel.add(res);
+                resultPanel.add(RESULTAT);
+
                 // Boucle d'initialisation de chaque zone
                 for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
-                        final int i = j; // i est effectivement final
+                        final int i = j;
 
-                        // Bouton d'affichage de la grille
-
-                        // Nom du Bouton
-                        addGridButtons[i] = new JButton("Ajouter une grille n° " + i);
-
-                        addGridButtons[i].addActionListener(e -> {
-                                // Affichage de la grille
-                                drawingPanels[i].addGrid(drawingPanels[i]);
-
-                                // Booléen affirmant que la grille est présente
-                                drawingPanels[i].setAffiche(true);
-                        });
-
-                        // Bouton de suppression de la grille
-
-                        // Nom du Bouton
-                        suppGridButtons[i] = new JButton("Supprimer une grille n° " + i);
+                        suppGridButtons[i] = new JButton("Nettoyer grille n° " + i);
 
                         suppGridButtons[i].addActionListener(e -> {
                                 // Suppresion de la grille
-                                drawingPanels[i].suppGrid(drawingPanels[i]);
+                                drawingPanels[i].cleanGrid(drawingPanels[i]);
                                 grilles[i].InitSchema();
 
                         });
@@ -157,7 +180,6 @@ public class MainGUI extends JFrame {
 
                         // Création des boutons d'affichage et de suppresion des grilles
                         buttonsPanels[i] = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
-                        buttonsPanels[i].add(addGridButtons[i]);
                         buttonsPanels[i].add(suppGridButtons[i]);
 
                         // Placement des boutons sous la zone de dessin
@@ -172,16 +194,6 @@ public class MainGUI extends JFrame {
                         centerPanel.add(subPanels[i]);
 
                         drawingPanels[i].setPreferredSize(preferredSize);
-
-                        // Ajustement de la taille des boutons
-                        if (i == 9) {
-                                addGridButtons[i].setMargin(new Insets(2, 2, 2, 2));
-                                suppGridButtons[i].setMargin(new Insets(2, 2, 2, 2));
-                        } else {
-
-                                addGridButtons[i].setMargin(new Insets(2, 4, 2, 4));
-                                suppGridButtons[i].setMargin(new Insets(2, 4, 2, 4));
-                        }
 
                         // Outil de selection des couleurs
                         colorComboBox
@@ -319,36 +331,21 @@ public class MainGUI extends JFrame {
                                                                                 SoftwareConfiguration.BLOCK_SIZE);
 
                                                                 grilles[i].cells[cellY][cellX].setColorie(false);
-
                                                         }
                                                 }
-
                                                 // Affichage constant du quadrillage
                                                 drawingPanels[i].drawLines();
-
                                         }
                                 }
                         });
 
-                        validGridButton.addActionListener(e -> System.out.println());
-                        validGridButton.addActionListener(e -> System.out.println("Grille n° " + i));
-                        validGridButton.addActionListener(e -> grilles[i].ReducSchema(grilles[i].RecupSchema()));
+                        validGridButton.addActionListener(e -> RESULTAT.setText(" "));
+                        validGridButton.addActionListener(e -> resultPanel.add(reverseddrawinglabel[i]));
+
+                        // validGridButton.addActionListener(e -> grilles[i].FinalSendSchema());
 
                 }
-
-                // Déclaration de la zone de Résultat
-                JPanel resultPanel = new JPanel(
-                                new FlowLayout(FlowLayout.CENTER, 5,
-                                                5));
-                resultPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-                // Déclaratiion des zones de textes accueillant le résultat
-                JLabel res = new JLabel("Résulat : ");
-                JLabel RESULTAT = new JLabel("_ _ _ _ _ _ _ _ _ _");
-
-                // Ajouts des zones de texte dans la zone adéquate
-                resultPanel.add(res);
-                resultPanel.add(RESULTAT);
+                validGridButton.addActionListener(e -> grilles[0].ComparaisonLettre());
 
                 // Placement des différentes zone dans la fenêtre
                 add(centerPanel, BorderLayout.NORTH);

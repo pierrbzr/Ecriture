@@ -1,3 +1,4 @@
+
 package gui;
 
 import config.SoftwareConfiguration;
@@ -5,7 +6,6 @@ import engine.database.Database;
 import engine.grid.Grid;
 
 import java.awt.*;
-import java.util.HashMap;
 
 public class GridStrategy {
 
@@ -53,30 +53,32 @@ public class GridStrategy {
         }
     }
 
-    public static void testDatabase() {
-        HashMap<Character, boolean[][]> test1 = Database.getLetterDatabase();
-        HashMap<Character, boolean[][]> test2 = Database.getLetterDatabase();
-        boolean[][] tableauNaze = test1.get('a');
-        boolean[][] tableauStyle = test2.get('a');
+    public static int testDatabase(boolean[][] tableau1, boolean[][] tableau2) {
 
-        int caseVraie = 0;
-        int caseFausse = 0;
-        int caseTotal = 0;
+        if ((tableau1.length == tableau2.length) && (tableau1[0].length == tableau2[0].length)) {
+            int lines = tableau1.length;
+            int columns = tableau1[0].length;
+            int caseVraie = 0;
+            for (int i = 0; i < lines; i++) {
+                for (int j = 0; j < columns; j++) {
 
-        for (int i = 0; i < SoftwareConfiguration.LINE_COUNT; i++) {
-            for (int j = 0; j < SoftwareConfiguration.COLUMN_COUNT; j++) {
-                System.out.println(tableauStyle[i][j]);
-                System.out.println(tableauNaze[i][j]);
-                if (tableauNaze[i][j] == tableauStyle[i][j]) {
-                    caseVraie += 1;
-                } else {
-                    caseFausse += 1;
+                    if (tableau1[i][j] == tableau2[i][j]) {
+                        caseVraie += 1;
+                    }
                 }
-                caseTotal = caseFausse + caseVraie;
-                System.out.println(caseVraie + " cases correspondantes et " + caseFausse
-                        + "cases non correspondantes et il y a " + caseTotal + " cases en tout");
             }
+            return caseVraie;
+
+        } else {
+            return 0;
         }
 
     }
+
+    public static boolean estVideTab(boolean[][] tableau1) {
+        boolean[][] tableauVide = Database.getLetterDatabase().get('0');
+
+        return (testDatabase(tableau1, tableauVide) == 100);
+    }
+
 }

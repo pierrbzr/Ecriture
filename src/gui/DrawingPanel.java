@@ -2,6 +2,7 @@ package gui;
 
 import engine.grid.Grid;
 import config.SoftwareConfiguration;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -30,7 +31,6 @@ public class DrawingPanel extends JPanel {
 
     public void addGrid(DrawingPanel drawingPanel) {
         drawGrid();
-        // setAffiche(drawingPanel, true);
     }
 
     private void drawGrid() {
@@ -44,8 +44,9 @@ public class DrawingPanel extends JPanel {
         gridStrategy.paintLines(g);
     }
 
-    public void suppGrid(DrawingPanel drawingPanel) {
+    public void cleanGrid(DrawingPanel drawingPanel) {
         deleteGrid();
+        drawGrid();
 
     }
 

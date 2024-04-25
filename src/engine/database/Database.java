@@ -9,6 +9,21 @@ public class Database {
 
                 letterDatabase = new HashMap<>();
 
+                boolean[][] patternNullMaj = {
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
+
+                };
+                letterDatabase.put('0', patternNullMaj);
+
                 boolean[][] patternAMaj = {
                                 { false, false, false, false, false, false, false, false, false, false },
                                 { false, false, false, true, true, true, true, false, false, false },
@@ -220,16 +235,16 @@ public class Database {
                 letterDatabase.put('O', patternOMaj);
 
                 boolean[][] patternPMaj = {
-                                { false, false, false, false, true, true, true, false, false, false },
-                                { false, false, false, true, false, false, false, true, false, false },
+                                { false, false, false, true, true, true, true, true, false, false },
                                 { false, false, false, true, false, false, false, false, true, false },
                                 { false, false, false, true, false, false, false, false, true, false },
                                 { false, false, false, true, false, false, false, false, true, false },
-                                { false, false, false, true, false, false, true, true, false, false },
-                                { false, false, false, true, true, true, false, false, false, false },
+                                { false, false, false, true, true, true, true, true, false, false },
                                 { false, false, false, true, false, false, false, false, false, false },
                                 { false, false, false, true, false, false, false, false, false, false },
-                                { false, false, false, true, false, false, false, false, false, false }
+                                { false, false, false, true, false, false, false, false, false, false },
+                                { false, false, false, true, false, false, false, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false }
                 };
                 letterDatabase.put('P', patternPMaj);
 
@@ -278,14 +293,14 @@ public class Database {
                 boolean[][] patternTMaj = {
                                 { false, false, false, false, false, false, false, false, false, false },
                                 { true, true, true, true, true, true, true, true, true, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false },
-                                { false, false, false, false, false, true, false, false, false, false }
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false },
+                                { false, false, false, false, true, false, false, false, false, false }
                 };
                 letterDatabase.put('T', patternTMaj);
 
@@ -458,7 +473,7 @@ public class Database {
                 letterDatabase.put('f', patternFMin);
 
                 boolean[][] patternGMin = {
-                                { false, false, false, false, false, false, true, false, false, false },
+                                { false, false, false, false, false, false, false, false, false, false },
                                 { false, false, false, true, true, true, true, false, false, false },
                                 { false, false, true, false, false, false, true, false, false, false },
                                 { false, false, true, false, false, false, true, false, false, false },
@@ -537,7 +552,7 @@ public class Database {
                                 { false, false, false, true, true, false, false, false, false, false },
                                 { false, false, false, true, false, false, false, false, false, false },
                                 { false, false, false, true, false, false, false, false, false, false },
-                                { false, false, false, true, true, false, false, false, false, false }
+                                { false, false, false, true, false, false, false, false, false, false }
                 };
                 letterDatabase.put('l', patternLMin);
 

@@ -17,7 +17,6 @@ public class MainGUI extends JFrame {
         private final static Dimension preferredSize = new Dimension(SoftwareConfiguration.WINDOW_WIDTH,
                         SoftwareConfiguration.WINDOW_HEIGHT);
         private final static Dimension preferredSize2 = new Dimension(SoftwareConfiguration.WINDOW_WIDTH, 700);
-        private final static Dimension preferredSize3 = new Dimension(1600, 50);
 
         // Création et Initialisation des Zones de Dessins
 
@@ -35,38 +34,22 @@ public class MainGUI extends JFrame {
         private DrawingPanel[] drawingPanels = { drawingPanel0, drawingPanel1, drawingPanel2, drawingPanel3,
                         drawingPanel4, drawingPanel5, drawingPanel6, drawingPanel7, drawingPanel8, drawingPanel9 };
 
+        public static ResultPanel resultPanel;
+
         // Création et Initialisation des Grilles de Dessins
 
-        private Grid grid0 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid1 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid2 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid3 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid4 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid5 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid6 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid7 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid8 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
-        private Grid grid9 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid0 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid1 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid2 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid3 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid4 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid5 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid6 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid7 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid8 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
+        static Grid grid9 = new Grid(SoftwareConfiguration.LINE_COUNT, SoftwareConfiguration.COLUMN_COUNT);
 
-        private Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
-
-        private JLabel[] drawingLabel = { grid0.resultatLabel, grid1.resultatLabel, grid2.resultatLabel,
-                        grid3.resultatLabel,
-                        grid4.resultatLabel, grid5.resultatLabel, grid6.resultatLabel, grid7.resultatLabel,
-                        grid8.resultatLabel,
-                        grid9.resultatLabel };
-
-        JLabel[] reverseddrawinglabel = reverse(drawingLabel);
-
-        static JLabel[] reverse(JLabel[] array) {
-                JLabel[] newArray = new JLabel[array.length];
-
-                for (int i = 0; i < array.length; i++) {
-                        newArray[array.length - 1 - i] = array[i];
-                }
-
-                return newArray;
-        }
+        static Grid[] grilles = { grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8, grid9 };
 
         // Déclaration Variable intermediaire
 
@@ -111,6 +94,7 @@ public class MainGUI extends JFrame {
 
                 // Création de la zone de contrôle
                 JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 7));
+                JPanel downPanel = new JPanel();
 
                 // Création des boutons de la zone de contrôle
                 JButton addButton = new JButton("Ajouter Grilles");
@@ -137,24 +121,14 @@ public class MainGUI extends JFrame {
                 controlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
                 controlPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
 
+                resultPanel = new ResultPanel();
+                downPanel.add(resultPanel);
+                clearButton.addActionListener(e -> resultPanel.resetJLabel());
+
                 // centerPanel correspond à la zone principale , l'endroit où sont afficher
                 // toute les zones de dessins
                 JPanel centerPanel = new JPanel(new GridLayout(2, 5, 10, 10));
                 centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-                // Déclaration de la zone de Résultat
-                JPanel resultPanel = new JPanel(
-                                new FlowLayout(FlowLayout.CENTER, 5,
-                                                5));
-                resultPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-                // Déclaratiion des zones de textes accueillant le résultat
-                JLabel res = new JLabel("Résulat : ");
-                JLabel RESULTAT = new JLabel("_ _ _ _ _ _ _ _ _ _");
-
-                // Ajouts des zones de texte dans la zone adéquate
-                resultPanel.add(res);
-                resultPanel.add(RESULTAT);
 
                 // Boucle d'initialisation de chaque zone
                 for (int j = 0; j < SoftwareConfiguration.GRID_COUNT; j++) {
@@ -230,7 +204,7 @@ public class MainGUI extends JFrame {
 
                                                                 Graphics g = (Graphics) drawingPanels[i]
                                                                                 .getGraphics();
-                                                                g.setColor(Color.RED);
+                                                                g.setColor(drawingPanels[i].getPenColor());
                                                                 g.fillRect(
                                                                                 cellX * SoftwareConfiguration.BLOCK_SIZE
                                                                                                 + SoftwareConfiguration.OFFSET_X,
@@ -340,24 +314,20 @@ public class MainGUI extends JFrame {
                                 }
                         });
 
-                        validGridButton.addActionListener(e -> RESULTAT.setText(" "));
-                        validGridButton.addActionListener(e -> resultPanel.add(reverseddrawinglabel[i]));
                         validGridButton.addActionListener(
                                         e -> grilles[i].affichageLettre(grilles[i].ComparaisonLettreMaj(),
                                                         grilles[i].ComparaisonLettreMin(), grilles[i].letterDrawInit));
                         validGridButton.addActionListener(e -> grilles[i].FinalSendSchema());
-                        clearButton.addActionListener(e -> grilles[i].resetJLabel());
 
                 }
 
                 // Placement des différentes zone dans la fenêtre
                 add(centerPanel, BorderLayout.NORTH);
-                add(resultPanel, BorderLayout.CENTER);
+                add(downPanel, BorderLayout.CENTER);
                 add(controlPanel, BorderLayout.SOUTH);
 
                 // Ajustement de la taille des zones
                 centerPanel.setPreferredSize(preferredSize2);
-                resultPanel.setPreferredSize(preferredSize3);
 
                 pack();
                 setLocationRelativeTo(null);

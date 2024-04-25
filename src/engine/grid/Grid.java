@@ -1,7 +1,6 @@
 package engine.grid;
 
 import java.util.*;
-
 import javax.swing.JLabel;
 
 import config.SoftwareConfiguration;
@@ -15,7 +14,7 @@ public class Grid {
 	private int columnCount;
 	public boolean[][] letterDrawInit;
 	public Character resultatDessin;
-	public JLabel resultatLabel = new JLabel();
+	public JLabel resultatLabel = new JLabel("_");
 
 	public Grid(int lineCount, int columnCount) {
 		this.lineCount = lineCount;
@@ -51,16 +50,14 @@ public class Grid {
 		return this.resultatDessin = letter;
 	}
 
-	public JLabel initJLabel(Character letter) {
+	public JLabel afficheRes(Character letter) {
 		resultatLabel.setText("" + letter);
 		return resultatLabel;
-
 	}
 
-	public JLabel resetJLabel() {
-		resultatLabel.setText("");
+	public JLabel clearRes() {
+		resultatLabel.setText("_");
 		return resultatLabel;
-
 	}
 
 	// Cette fonction initialise chaque données du tableaux à "false" lorsque la
@@ -415,6 +412,7 @@ public class Grid {
 
 		} else {
 			Map<Character, Integer> finalHashmap = new LinkedHashMap<>();
+			clearRes();
 			return finalHashmap;
 
 		}
@@ -430,13 +428,14 @@ public class Grid {
 			Character key = entry.getKey();
 			Integer value = entry.getValue();
 			if (value == 100) {
-				initJLabel(key);
+				afficheRes(key);
 			} else if (!finalHashmap.isEmpty()) {
-				initJLabel(getFirstKey(finalHashmap));
+				afficheRes(getFirstKey(finalHashmap));
 			} else if (!finalHashmap.isEmpty()) {
-				initJLabel(null);
+				afficheRes(null);
 			}
 		}
+
 	}
 
 	public static <K, V> K getFirstKey(Map<K, V> map) {
